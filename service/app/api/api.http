@@ -1,0 +1,25 @@
+# 注册
+POST {{host}}/passport/register
+Content-Type: application/json
+
+{}
+
+###
+
+# 登录
+POST {{host}}/passport/login
+Content-Type: application/json
+
+{}
+
+###
+
+# 退出登录
+POST {{host}}/passport/logout
+Content-Type: application/json
+
+{}
+
+###
+
+
