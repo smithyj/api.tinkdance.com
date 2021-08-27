@@ -1,0 +1,9 @@
+Name: tinkgo
+Mode: debug
+Addr: :8080
+Redis:
+  Prefix: tinkdance
+  Host: 127.0.0.1
+  Port: 6379
+  Password:
+  DB: 0
