@@ -3,6 +3,7 @@ package middleware
 import (
 	"context"
 	"fmt"
+	"net"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -61,7 +62,19 @@ func Request(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		defer trace.Finish()
 
-		trace.AddAnnotation("host", c.Request.RemoteAddr)
+		ip := c.ClientIP()
+		parseIP := net.ParseIP(ip)
+		if parseIP.IsPrivate() || parseIP.IsLoopback() {
+			ipHeaders := []string{"X-Real-IP", "X-Forwarded-For"}
+			for _, v := range ipHeaders {
+				if realIP := c.GetHeader(v); realIP != "" {
+					ip = realIP
+					break
+				}
+			}
+		}
+
+		trace.AddAnnotation("ip", ip)
 		trace.AddAnnotation("method", c.Request.Method)
 		trace.AddAnnotation("uri", c.Request.URL.Path)
 		trace.AddAnnotation("query", c.Request.URL.RawQuery)
