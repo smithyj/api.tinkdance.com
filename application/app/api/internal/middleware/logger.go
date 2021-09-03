@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"fmt"
 	"net"
 	"strings"
@@ -12,11 +11,11 @@ import (
 	"tinkdance/pkg/tracex"
 )
 
-var whiteList = map[string]struct{}{
-	"/favicon.ico": {},
-}
+func Logger(svcCtx *svc.ServiceContext) gin.HandlerFunc {
+	var whiteList = map[string]struct{}{
+		"/favicon.ico": {},
+	}
 
-func Request(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
@@ -35,13 +34,7 @@ func Request(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 
 		trace := tracex.New(key)
 
-		// 请求上下文封装
-		reqCtx := &svc.RequestContext{
-			SvcCtx: svcCtx,
-			Trace:  trace,
-		}
-		ctx := context.WithValue(context.Background(), svc.RequestKey, reqCtx)
-		c.Set(svc.RequestKey, ctx)
+		c.Set(tracex.TraceKey, trace)
 
 		// 启动日志跟踪
 		trace.Start()
