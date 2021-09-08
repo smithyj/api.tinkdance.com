@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/url"
 	"strings"
-	"tinkdance/application/app/api/internal/svc"
+	"tinkdance/apps/app/api/internal/svc"
 	"tinkdance/pkg/tracex"
 )
 

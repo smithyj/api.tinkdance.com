@@ -8,7 +8,7 @@ import (
 	"github.com/afocus/captcha"
 	uuid "github.com/satori/go.uuid"
 	"image/png"
-	"tinkdance/application/app/api/internal/svc"
+	"tinkdance/apps/app/api/internal/svc"
 	"tinkdance/pkg/codex"
 )
 

@@ -9,8 +9,8 @@ import (
 
 	afocuscaptcha "github.com/afocus/captcha"
 
-	"tinkdance/application/app/api/internal/assets"
-	"tinkdance/application/app/api/internal/config"
+	"tinkdance/apps/app/api/internal/assets"
+	"tinkdance/apps/app/api/internal/config"
 )
 
 const ServiceKey = "service-context"

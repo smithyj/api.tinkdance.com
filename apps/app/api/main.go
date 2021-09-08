@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 
-	"tinkdance/application/app/api/internal/config"
-	"tinkdance/application/app/api/internal/handler"
-	"tinkdance/application/app/api/internal/svc"
+	"tinkdance/apps/app/api/internal/config"
+	"tinkdance/apps/app/api/internal/handler"
+	"tinkdance/apps/app/api/internal/svc"
 	"tinkdance/pkg/httpx"
 	"tinkdance/pkg/logger"
 )

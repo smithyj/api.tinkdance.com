@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"tinkdance/application/app/api/internal/handler/v1"
-	"tinkdance/application/app/api/internal/middleware"
-	"tinkdance/application/app/api/internal/svc"
+	"tinkdance/apps/app/api/internal/handler/v1"
+	"tinkdance/apps/app/api/internal/middleware"
+	"tinkdance/apps/app/api/internal/svc"
 	"tinkdance/pkg/httpx"
 )
 

@@ -3,8 +3,8 @@ package captcha
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"tinkdance/application/app/api/internal/logic/captcha"
-	"tinkdance/application/app/api/internal/svc"
+	"tinkdance/apps/app/api/internal/logic/captcha"
+	"tinkdance/apps/app/api/internal/svc"
 )
 
 func Image() gin.HandlerFunc {

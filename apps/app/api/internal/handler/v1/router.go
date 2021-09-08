@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"tinkdance/application/app/api/internal/handler/v1/captcha"
+	"tinkdance/apps/app/api/internal/handler/v1/captcha"
 )
 
 func Router(engine *gin.Engine) {
