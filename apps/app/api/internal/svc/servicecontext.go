@@ -1,29 +1,25 @@
 package svc
 
 import (
-	"context"
-	"errors"
 	"image/color"
 	"tinkdance/pkg/captcha"
 	"tinkdance/pkg/redis"
 
-	afocuscaptcha "github.com/afocus/captcha"
+	gocaptcha "github.com/afocus/captcha"
 
 	"tinkdance/apps/app/api/internal/assets"
 	"tinkdance/apps/app/api/internal/config"
 )
 
-const ServiceKey = "service-context"
-
 type ServiceContext struct {
 	Config       *config.Config
 	Redis        redis.Redis
 	Captcha      captcha.Captcha
-	ImageCaptcha *afocuscaptcha.Captcha
+	ImageCaptcha *gocaptcha.Captcha
 }
 
 func NewServiceContext(config *config.Config) (svcCtx *ServiceContext, err error) {
-	redis, err := redis.New(config.Redis)
+	redisConn, err := redis.New(config.Redis)
 	if err != nil {
 		return nil, err
 	}
@@ -35,36 +31,27 @@ func NewServiceContext(config *config.Config) (svcCtx *ServiceContext, err error
 
 	svcCtx = &ServiceContext{
 		Config:       config,
-		Redis:        redis,
-		Captcha:      captcha.New(redis),
+		Redis:        redisConn,
+		Captcha:      captcha.New(redisConn),
 		ImageCaptcha: imgCaptcha,
 	}
 	return
 }
 
-func newImgCaptcha() (*afocuscaptcha.Captcha, error) {
-	captcha := afocuscaptcha.New()
+func newImgCaptcha() (*gocaptcha.Captcha, error) {
+	c := gocaptcha.New()
 	buf, err := assets.FS.ReadFile("fonts/comic.ttf")
 	if err != nil {
 		return nil, err
 	}
-	if err := captcha.AddFontFromBytes(buf); err != nil {
+	if err := c.AddFontFromBytes(buf); err != nil {
 		return nil, err
 	}
 
-	captcha.SetSize(200, 100)
-	captcha.SetDisturbance(afocuscaptcha.HIGH)
-	captcha.SetFrontColor(color.RGBA{255, 255, 255, 255})
-	captcha.SetBkgColor(color.RGBA{255, 0, 0, 255}, color.RGBA{0, 0, 255, 255}, color.RGBA{0, 153, 0, 255})
+	c.SetSize(200, 100)
+	c.SetDisturbance(gocaptcha.HIGH)
+	c.SetFrontColor(color.RGBA{255, 255, 255, 255})
+	c.SetBkgColor(color.RGBA{255, 0, 0, 255}, color.RGBA{0, 0, 255, 255}, color.RGBA{0, 153, 0, 255})
 
-	return captcha, nil
-}
-
-// ServiceWithContext 从上下文中获取 ServiceContext
-func ServiceWithContext(ctx context.Context) (context.Context, *ServiceContext, error) {
-	v, ok := ctx.Value(ServiceKey).(*ServiceContext)
-	if !ok {
-		return ctx, nil, errors.New("SvcCtx is not initialize")
-	}
-	return ctx, v, nil
+	return c, nil
 }
