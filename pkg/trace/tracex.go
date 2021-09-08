@@ -1,4 +1,4 @@
-package tracex
+package trace
 
 import (
 	"context"

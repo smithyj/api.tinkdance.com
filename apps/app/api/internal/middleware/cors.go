@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 	"tinkdance/apps/app/api/internal/svc"
-	"tinkdance/pkg/tracex"
+	"tinkdance/pkg/trace"
 )
 
 var allowOrigins = []string{
@@ -23,10 +23,10 @@ func Cors(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 	cfg.AddAllowMethods("GET", "POST", "PUT", "DELETE", "PATCH")
 
 	// 允许设置 Header 头
-	cfg.AddAllowHeaders(tracex.TraceKey)
+	cfg.AddAllowHeaders(trace.TraceKey)
 
 	// 允许访问 Header 头
-	cfg.AddExposeHeaders(tracex.TraceKey, tracex.RequestKey)
+	cfg.AddExposeHeaders(trace.TraceKey, trace.RequestKey)
 
 	// 跨域访问认证
 	cfg.AllowOriginFunc = func(origin string) bool {

@@ -4,14 +4,14 @@ import (
 	"context"
 	"errors"
 	"github.com/gin-gonic/gin"
-	"tinkdance/pkg/tracex"
+	"tinkdance/pkg/trace"
 )
 
 const RequestKey = "request-context"
 
 type RequestContext struct {
 	SvcCtx *ServiceContext
-	Trace  *tracex.Trace
+	Trace  *trace.Trace
 }
 
 // RequestWithContext 从上下文中获取 RequestContext

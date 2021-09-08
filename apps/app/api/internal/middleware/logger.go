@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"tinkdance/apps/app/api/internal/svc"
-	"tinkdance/pkg/tracex"
+	"tinkdance/pkg/trace"
 )
 
 func Logger(svcCtx *svc.ServiceContext) gin.HandlerFunc {
@@ -24,28 +24,28 @@ func Logger(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 		}
 
 		// 获取 TraceID 信息
-		key := c.GetHeader(tracex.TraceKey)
+		key := c.GetHeader(trace.TraceKey)
 		if key == "" {
-			cookie, err := c.Cookie(tracex.TraceKey)
+			cookie, err := c.Cookie(trace.TraceKey)
 			if err == nil {
 				key = cookie
 			}
 		}
 
-		trace := tracex.New(key)
+		t := trace.New(key)
 
-		c.Set(tracex.TraceKey, trace)
+		c.Set(trace.TraceKey, t)
 
 		// 启动日志跟踪
-		trace.Start()
+		t.Start()
 
 		// 输出 Header 头
-		c.Header(tracex.TraceKey, trace.TraceId())
-		c.Header(tracex.RequestKey, trace.RequestId())
+		c.Header(trace.TraceKey, t.TraceId())
+		c.Header(trace.RequestKey, t.RequestId())
 
 		// 输出 Cookie 头
 		host := strings.Split(c.Request.Host, ":")
-		c.SetCookie(tracex.TraceKey, trace.TraceId(), 86400*365*10, "/", host[0], true, false)
+		c.SetCookie(trace.TraceKey, t.TraceId(), 86400*365*10, "/", host[0], true, false)
 
 		c.Next()
 
@@ -53,7 +53,7 @@ func Logger(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		defer trace.Finish()
+		defer t.Finish()
 
 		ip := c.ClientIP()
 		parseIP := net.ParseIP(ip)
@@ -67,12 +67,12 @@ func Logger(svcCtx *svc.ServiceContext) gin.HandlerFunc {
 			}
 		}
 
-		trace.AddAnnotation("ip", ip)
-		trace.AddAnnotation("method", c.Request.Method)
-		trace.AddAnnotation("uri", c.Request.URL.Path)
-		trace.AddAnnotation("query", c.Request.URL.RawQuery)
-		trace.AddAnnotation("proto", c.Request.Proto)
-		trace.AddAnnotation("status", fmt.Sprintf("%v", c.Writer.Status()))
-		trace.AddAnnotation("user-agent", c.Request.UserAgent())
+		t.AddAnnotation("ip", ip)
+		t.AddAnnotation("method", c.Request.Method)
+		t.AddAnnotation("uri", c.Request.URL.Path)
+		t.AddAnnotation("query", c.Request.URL.RawQuery)
+		t.AddAnnotation("proto", c.Request.Proto)
+		t.AddAnnotation("status", fmt.Sprintf("%v", c.Writer.Status()))
+		t.AddAnnotation("user-agent", c.Request.UserAgent())
 	}
 }
