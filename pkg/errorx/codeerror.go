@@ -22,7 +22,7 @@ func New(code int, msg string, data interface{}) error {
 
 func WithCode(code int) error {
 	if code == 0 {
-		code = bizcode.Error
+		code = bizcode.Fatal
 	}
 	msg := bizcode.Msg(code)
 	return &Error{
@@ -32,7 +32,7 @@ func WithCode(code int) error {
 }
 
 func WithMsg(msg string) error {
-	code := bizcode.Error
+	code := bizcode.Fatal
 	if msg == "" || msg == io.EOF.Error() {
 		msg = bizcode.Msg(code)
 	}
@@ -43,7 +43,7 @@ func WithMsg(msg string) error {
 }
 
 func WithData(data interface{}) error {
-	code := bizcode.Error
+	code := bizcode.Fatal
 	msg := bizcode.Msg(code)
 	return &Error{
 		Code: code,
@@ -59,7 +59,7 @@ func (e *Error) Error() string {
 func (e *Error) Response() *Error {
 	if e.Code == 0 {
 		// 强制为错误码
-		e.Code = bizcode.Error
+		e.Code = bizcode.Fatal
 	}
 	if e.Msg == "" {
 		e.Msg = bizcode.Msg(e.Code)
