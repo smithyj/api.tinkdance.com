@@ -1,4 +1,4 @@
-package captchax
+package captcha
 
 import (
 	"context"
