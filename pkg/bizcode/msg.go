@@ -1,4 +1,4 @@
-package codex
+package bizcode
 
 var msg = map[int]string{
 	Success: "ok",

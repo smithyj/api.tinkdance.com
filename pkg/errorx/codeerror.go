@@ -3,7 +3,7 @@ package errorx
 import (
 	"fmt"
 	"io"
-	"tinkdance/pkg/codex"
+	"tinkdance/pkg/bizcode"
 )
 
 type Error struct {
@@ -22,9 +22,9 @@ func New(code int, msg string, data interface{}) error {
 
 func WithCode(code int) error {
 	if code == 0 {
-		code = codex.Error
+		code = bizcode.Error
 	}
-	msg := codex.Msg(code)
+	msg := bizcode.Msg(code)
 	return &Error{
 		Code: code,
 		Msg:  msg,
@@ -32,9 +32,9 @@ func WithCode(code int) error {
 }
 
 func WithMsg(msg string) error {
-	code := codex.Error
+	code := bizcode.Error
 	if msg == "" || msg == io.EOF.Error() {
-		msg = codex.Msg(code)
+		msg = bizcode.Msg(code)
 	}
 	return &Error{
 		Code: code,
@@ -43,8 +43,8 @@ func WithMsg(msg string) error {
 }
 
 func WithData(data interface{}) error {
-	code := codex.Error
-	msg := codex.Msg(code)
+	code := bizcode.Error
+	msg := bizcode.Msg(code)
 	return &Error{
 		Code: code,
 		Msg:  msg,
@@ -53,16 +53,16 @@ func WithData(data interface{}) error {
 }
 
 func (e *Error) Error() string {
-	return fmt.Sprintf("error codex: %v, error msg: %s, error data: %v", e.Code, e.Msg, e.Data)
+	return fmt.Sprintf("error bizcode: %v, error msg: %s, error data: %v", e.Code, e.Msg, e.Data)
 }
 
 func (e *Error) Response() *Error {
 	if e.Code == 0 {
 		// 强制为错误码
-		e.Code = codex.Error
+		e.Code = bizcode.Error
 	}
 	if e.Msg == "" {
-		e.Msg = codex.Msg(e.Code)
+		e.Msg = bizcode.Msg(e.Code)
 	}
 	return e
 }

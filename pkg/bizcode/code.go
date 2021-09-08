@@ -1,4 +1,4 @@
-package codex
+package bizcode
 
 const (
 	Success = 0

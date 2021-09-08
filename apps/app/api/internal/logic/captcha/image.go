@@ -9,7 +9,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"image/png"
 	"tinkdance/apps/app/api/internal/svc"
-	"tinkdance/pkg/codex"
+	"tinkdance/pkg/bizcode"
 )
 
 type ImageRequest struct{}
@@ -47,8 +47,8 @@ func Image(ctx context.Context, req *ImageRequest) (*ImageResponse, error) {
 	}
 
 	return &ImageResponse{
-		Code: codex.Success,
-		Msg:  codex.Msg(codex.Success),
+		Code: bizcode.Success,
+		Msg:  bizcode.Msg(bizcode.Success),
 		Data: ImageResponseData{
 			CaptchaID: captchaId,
 			Base64:    "data:image/jpeg;base64," + base64Str,
