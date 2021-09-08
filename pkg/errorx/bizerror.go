@@ -1,62 +1,61 @@
 package errorx
 
 import (
-	"fmt"
 	"io"
 	"tinkdance/pkg/bizcode"
 )
 
-type Error struct {
+type BizError struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data,omitempty"`
 }
 
-func New(code int, msg string, data interface{}) error {
-	return &Error{
+func NewBizError(code int, msg string, data interface{}) *BizError {
+	return &BizError{
 		Code: code,
 		Msg:  msg,
 		Data: data,
 	}
 }
 
-func WithCode(code int) error {
+func NewBizErrorWithCode(code int) *BizError {
 	if code == 0 {
 		code = bizcode.Fatal
 	}
 	msg := bizcode.Msg(code)
-	return &Error{
+	return &BizError{
 		Code: code,
 		Msg:  msg,
 	}
 }
 
-func WithMsg(msg string) error {
+func NewBizErrorWithMsg(msg string) *BizError {
 	code := bizcode.Fatal
 	if msg == "" || msg == io.EOF.Error() {
 		msg = bizcode.Msg(code)
 	}
-	return &Error{
+	return &BizError{
 		Code: code,
 		Msg:  msg,
 	}
 }
 
-func WithData(data interface{}) error {
+func NewBizErrorWithData(data interface{}) *BizError {
 	code := bizcode.Fatal
 	msg := bizcode.Msg(code)
-	return &Error{
+	return &BizError{
 		Code: code,
 		Msg:  msg,
 		Data: data,
 	}
 }
 
-func (e *Error) Error() string {
-	return fmt.Sprintf("error bizcode: %v, error msg: %s, error data: %v", e.Code, e.Msg, e.Data)
+func (e *BizError) Error() string {
+	return e.Format().Msg
 }
 
-func (e *Error) Response() *Error {
+func (e *BizError) Format() *BizError {
 	if e.Code == 0 {
 		// 强制为错误码
 		e.Code = bizcode.Fatal
