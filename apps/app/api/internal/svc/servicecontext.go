@@ -5,7 +5,7 @@ import (
 	"errors"
 	"image/color"
 	"tinkdance/pkg/captcha"
-	"tinkdance/pkg/redisx"
+	"tinkdance/pkg/redis"
 
 	afocuscaptcha "github.com/afocus/captcha"
 
@@ -17,13 +17,13 @@ const ServiceKey = "service-context"
 
 type ServiceContext struct {
 	Config       *config.Config
-	Redis        redisx.Redis
+	Redis        redis.Redis
 	Captcha      captcha.Captcha
 	ImageCaptcha *afocuscaptcha.Captcha
 }
 
 func NewServiceContext(config *config.Config) (svcCtx *ServiceContext, err error) {
-	redis, err := redisx.New(config.Redis)
+	redis, err := redis.New(config.Redis)
 	if err != nil {
 		return nil, err
 	}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"tinkdance/pkg/logger"
-	"tinkdance/pkg/redisx"
+	"tinkdance/pkg/redis"
 )
 
 //go:embed *
@@ -16,7 +16,7 @@ type Config struct {
 	Mode  string        `yaml:"Mode"`
 	Addr  string        `yaml:"Addr"`
 	Log   logger.Config `yaml:"Log"`
-	Redis redisx.Config `yaml:"Redis"`
+	Redis redis.Config  `yaml:"Redis"`
 }
 
 func NewConfig(env string) (config Config, err error) {

@@ -1,4 +1,4 @@
-package redisx
+package redis
 
 type Config struct {
 	Prefix   string `yaml:"Prefix"`

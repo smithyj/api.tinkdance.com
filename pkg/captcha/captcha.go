@@ -4,7 +4,7 @@ import (
 	"context"
 	"strings"
 	"time"
-	"tinkdance/pkg/redisx"
+	"tinkdance/pkg/redis"
 )
 
 const key = "captcha:"
@@ -16,7 +16,7 @@ type Captcha interface {
 }
 
 type captcha struct {
-	redis redisx.Redis
+	redis redis.Redis
 }
 
 func (c *captcha) Set(ctx context.Context, captchaId, code string) bool {
@@ -47,7 +47,7 @@ func (c *captcha) Del(ctx context.Context, captchaId string) bool {
 	return true
 }
 
-func New(redis redisx.Redis) Captcha {
+func New(redis redis.Redis) Captcha {
 	return &captcha{
 		redis: redis,
 	}
