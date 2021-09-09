@@ -3,7 +3,7 @@ package cache
 import (
 	"context"
 	"testing"
-	"thinkdance/pkg/redis"
+	"tinkdance/pkg/redis"
 	"time"
 )
 

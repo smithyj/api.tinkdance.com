@@ -1,4 +1,4 @@
-module thinkdance
+module tinkdance
 
 go 1.17
 

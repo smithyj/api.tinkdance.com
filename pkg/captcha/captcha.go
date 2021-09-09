@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"thinkdance/pkg/redis"
+	"tinkdance/pkg/redis"
 )
 
 // TTL 验证码超时时间

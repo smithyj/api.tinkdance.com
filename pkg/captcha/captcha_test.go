@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 	"testing"
-	"thinkdance/pkg/redis"
+	"tinkdance/pkg/redis"
 	"time"
 )
 

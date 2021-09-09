@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"thinkdance/pkg/redis"
+	"tinkdance/pkg/redis"
 )
 
 type Cache interface {
