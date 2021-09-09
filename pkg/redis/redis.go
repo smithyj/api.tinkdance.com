@@ -69,7 +69,7 @@ func (r *redis) Del(ctx context.Context, keys ...string) *goredis.IntCmd {
 
 func (r *redis) i() {}
 
-func NewRedis(config Config) (Redis, error) {
+func New(config Config) (Redis, error) {
 	client := goredis.NewClient(&goredis.Options{
 		Addr:     fmt.Sprintf("%v:%v", config.Addr, config.Port),
 		Password: config.Password,

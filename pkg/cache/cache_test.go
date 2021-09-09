@@ -3,12 +3,12 @@ package cache
 import (
 	"context"
 	"testing"
-	"tinkdance/pkg/redis"
 	"time"
+	"tinkdance/pkg/redis"
 )
 
 func TestCache(t *testing.T)  {
-	rdb, err := redis.NewRedis(redis.Config{
+	rdb, err := redis.New(redis.Config{
 		Addr: "127.0.0.1",
 		Port: 6379,
 		Password: "",
@@ -18,7 +18,7 @@ func TestCache(t *testing.T)  {
 	if err != nil {
 		t.FailNow()
 	}
-	cache := NewCache(rdb)
+	cache := New(rdb)
 	ctx := context.Background()
 	key := "test"
 	value := time.Now().Unix()

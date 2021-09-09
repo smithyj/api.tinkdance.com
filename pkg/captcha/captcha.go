@@ -56,7 +56,7 @@ func (c *captcha) Validate(ctx context.Context, captchaId, code string) bool {
 
 func (c *captcha) i() {}
 
-func NewCaptcha(redis redis.Redis) Captcha {
+func New(redis redis.Redis) Captcha {
 	return &captcha{
 		redis: redis,
 	}

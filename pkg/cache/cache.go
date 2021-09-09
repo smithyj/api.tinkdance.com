@@ -54,7 +54,7 @@ func (c *cache) Del(ctx context.Context, keys ...string) bool {
 
 func (c *cache) i() {}
 
-func NewCache(redis redis.Redis) Cache {
+func New(redis redis.Redis) Cache {
 	return &cache{
 		redis: redis,
 	}
