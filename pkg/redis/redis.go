@@ -69,17 +69,37 @@ func (r *redis) Del(ctx context.Context, keys ...string) *goredis.IntCmd {
 
 func (r *redis) i() {}
 
-func New(config Config) (Redis, error) {
-	client := goredis.NewClient(&goredis.Options{
-		Addr:     fmt.Sprintf("%v:%v", config.Addr, config.Port),
-		Password: config.Password,
-		DB:       config.DB,
-	})
-	if err := client.Ping(context.TODO()).Err(); err != nil {
+type Option func(r *redis)
+
+func New(options ...Option) (Redis, error) {
+	r := &redis{}
+	for _, v := range options {
+		v(r)
+	}
+
+	if r.client == nil {
+		r.client = goredis.NewClient(&goredis.Options{
+			Addr:     fmt.Sprintf("%v:%v", r.config.Addr, r.config.Port),
+			Password: r.config.Password,
+			DB:       r.config.DB,
+		})
+	}
+
+	if err := r.client.Ping(context.TODO()).Err(); err != nil {
 		return nil, err
 	}
-	return &redis{
-		client: client,
-		config: config,
-	}, nil
+
+	return r, nil
+}
+
+func WithConfig(config Config) Option {
+	return func(r *redis) {
+		r.config = config
+	}
+}
+
+func WithClient(client *goredis.Client) Option {
+	return func(r *redis) {
+		r.client = client
+	}
 }

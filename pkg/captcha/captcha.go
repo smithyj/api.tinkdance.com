@@ -56,8 +56,18 @@ func (c *captcha) Validate(ctx context.Context, captchaId, code string) bool {
 
 func (c *captcha) i() {}
 
-func New(redis redis.Redis) Captcha {
-	return &captcha{
-		redis: redis,
+type Option func(c *captcha)
+
+func New(options ...Option) Captcha {
+	c := &captcha{}
+	for _, v := range options {
+		v(c)
+	}
+	return c
+}
+
+func WithRedis(redis redis.Redis) Option {
+	return func(c *captcha) {
+		c.redis = redis
 	}
 }

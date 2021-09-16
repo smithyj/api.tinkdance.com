@@ -54,8 +54,18 @@ func (c *cache) Del(ctx context.Context, keys ...string) bool {
 
 func (c *cache) i() {}
 
-func New(redis redis.Redis) Cache {
-	return &cache{
-		redis: redis,
+type Option func(c *cache)
+
+func New(options ...Option) Cache {
+	c := &cache{}
+	for _, v := range options {
+		v(c)
+	}
+	return c
+}
+
+func WithRedis(redis redis.Redis) Option {
+	return func(c *cache) {
+		c.redis = redis
 	}
 }
