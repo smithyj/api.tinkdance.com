@@ -10,7 +10,7 @@ import (
 
 const (
 	KeepTTL = goredis.KeepTTL
-	Nil = goredis.Nil
+	Nil     = goredis.Nil
 )
 
 type Redis interface {

@@ -7,13 +7,13 @@ import (
 	"tinkdance/pkg/redis"
 )
 
-func TestCache(t *testing.T)  {
+func TestCache(t *testing.T) {
 	rdb, err := redis.New(redis.WithConfig(redis.Config{
-		Addr: "127.0.0.1",
-		Port: 6379,
+		Addr:     "127.0.0.1",
+		Port:     6379,
 		Password: "",
-		DB: 0,
-		Prefix: "tinkdance",
+		DB:       0,
+		Prefix:   "tinkdance",
 	}))
 	if err != nil {
 		t.FailNow()
