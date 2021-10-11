@@ -7,7 +7,6 @@ require (
 	github.com/go-redis/redis/v8 v8.11.3
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.8.1
-	github.com/vearne/gin-timeout v0.0.7
 	go.uber.org/zap v1.17.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	gorm.io/driver/mysql v1.1.2
