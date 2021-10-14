@@ -11,9 +11,10 @@ import (
 func Run(srvCtx *server.Context, engine *gin.Engine) {
 	{
 		// 全局中间件
-		engine.Use(middleware.Timeout(60 * time.Second))
 		engine.Use(middleware.TraceId())
 		engine.Use(middleware.RequestId())
+		engine.Use(middleware.AccessLogger(srvCtx))
+		engine.Use(middleware.Timeout(3 * time.Second))
 		engine.Use(middleware.Recovery())
 	}
 	// v1 路由

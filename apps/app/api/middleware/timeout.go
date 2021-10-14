@@ -9,9 +9,10 @@ import (
 	"tinkdance/pkg/gin/middleware/timeout"
 )
 
-var whiteList = map[string]struct{}{}
 
 func Timeout(duration time.Duration) gin.HandlerFunc {
+	var whiteList = map[string]struct{}{}
+
 	code := bizcode.RequestTimeout
 	return timeout.Timeout(
 		timeout.WithWhiteSkip(func(c *gin.Context) bool {
