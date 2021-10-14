@@ -52,7 +52,7 @@ func AccessLogger(srvCtx *server.Context) gin.HandlerFunc {
 			zap.String("proto", c.Request.Proto),
 			zap.String("user-agent", c.Request.UserAgent()),
 			zap.String("referer", c.Request.Referer()),
-			zap.Duration("duration", time.Now().Sub(startAt)),
+			zap.Int64("elapsed", time.Now().Sub(startAt).Microseconds()),
 		).Info("")
 	}
 }
